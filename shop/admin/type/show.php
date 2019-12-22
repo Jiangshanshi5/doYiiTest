@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商品类别</title>
+    <style type="text/css">
+        body{
+				background:url("../images/bg1.jpg") 0px 0px no-repeat;  /*平铺出导航栏的背景颜色*/
+				/*border:1px solid red;*/
+			}
+            h1{
+            margin-top:70px;
+            }
+        div{
+            padding:20px;
+            border-radius:50px;
+            margin:auto;
+            width:1000px;
+            background-color:hsla(255,100%,100%,0.4);
+        }
+        select{
+        width: 1000px; 
+        height: 50px; 
+        border-radius:25px;
+        background-color: #fff; 
+        }
+        
+    </style>
+</head>
+<body>
+	
+	<?php
+		//首页显示学生信息
+        echo "<center>";
+		echo "<h1>显示商品类别</h1>";
+		//六脉神剑
+        echo "</center>";
+        require("../../public/dbconfig.php");
+		//2
+        $link = @mysql_connect(HOST,USER,PASS) or die("导入失败");
+        //3
+        mysql_select_db(DBNAME,$link);
+        mysql_set_charset("utf8");
+        //4
+        $sql="select * from type where pid=0 order by concat(path,id)";
+        $sql1="select * from type where pid=0 order by concat(path,id)";
+        $res=mysql_query($sql);
+        //5
+        //echo "<select name=\"type\">";
+        echo "<div border=1 bgcolor=\"red\">";
+             echo "<select name=\"state\" id=\"level\">";
+        while($row=mysql_fetch_assoc($res)){
+            $disable="";
+            $n=substr_count($row['path'],",");
+            $path=str_repeat("&nbsp;&nbsp;","$n");
+            echo "<option  value={$row['id']}><a href='#'>{$path}{$row['name']}</a></option>";
+            
+            }
+        echo "</select>";
+            //=============================== 方式一 ==========================================//
+            // if($row['pid']==0){
+                // echo "<optgroup label=\"{$row['name']}\">";
+                // }else{
+                // echo "<option value={$row['id']}>{$row['name']}</option>";
+                // }
+            // echo "</optgroup>";
+            //=============================== 方式二 ==========================================//
+            // $disable="";
+            // $n=substr_count($row['path'],",");
+            // $path=str_repeat("&nbsp;&nbsp;","$n");
+            // echo "<option value={$row['id']}>{$row['name']}</option>";
+            //=============================== 方式三 ==========================================//
+        
+        echo "</div>";
+        //echo "</select>";
+        mysql_free_result($res);
+        mysql_close($link);
+	?>
+</body>
+</html>
